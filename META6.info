@@ -1,0 +1,13 @@
+{
+  "perl" : "6.c",
+  "name" : "Vat",
+  "version" : "0.0.1",
+  "description" : "A vat for holding stuff",
+  "authors" : [ "Steven Albano" ],
+  "provides" : {
+    "Vat" : "lib/Vat.pm6"
+  },
+  "depends" : [ ],
+  "resources" : [ ],
+  "source-url" : ""
+}
