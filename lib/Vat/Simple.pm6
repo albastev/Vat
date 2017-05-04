@@ -4,19 +4,12 @@ use v6;
 
 use Vat;
 
-unit class Vat:Simple does Vat;
-
-has Real $!maxLevel = 100;
-
-has Real $!level = 0;
-
-has Real $!volume = 0;
-
-has Real $!scale = 1;
+unit class Vat::Simple does Vat;
 
 submethod BUILD( :$!volume = 0, :$!scale = 1 ) {}
 
 has method calculate_level () {
+
   my $lv = 0;
   my $vol = $!volume * 1;
   do while ($vol > 0)

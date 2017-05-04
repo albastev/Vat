@@ -18,7 +18,10 @@ has method calculate_level () {...}
 
 has method drain (Real :$level, Real :$volume) {
   self.calculate_level;
-  return 0 if $level < $!level;
+  #say 'level'~$!level;
+  #say 'lvl'~$level;
+  
+  return 0 if $level > $!level;
   
   my $vol = $volume * 1;
   do while ( $vol > 0 ) 
@@ -48,12 +51,12 @@ has method fill (Real :$level, Real :$volume) {
   $volume - $vol but True;
 }
 
-has method request_supply returns Supply () {
+has method request_supply () {
 
   $!supplier.Supply;
 }
 
-has method tick returns Nil ( :$value ) {
+has method tick ( :$value ) {
 
   $!supplier.emit($!level);
 

@@ -4,15 +4,7 @@ use v6;
 
 use Vat;
 
-unit class Vat:Histogram does Vat;
-
-has Real $!maxLevel = 100;
-
-has Real $!level = 0;
-
-has Real $!volume = 0;
-
-has Real $!scale = 1;
+unit class Vat::Histogram does Vat;
 
 has @!histogram is default(1);
 
