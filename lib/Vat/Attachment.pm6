@@ -18,7 +18,7 @@ has method update_level (Real $level) {
   
   $!level = $level;
   
-  Nil;
+  self;
 }
 
 has method submerged () {

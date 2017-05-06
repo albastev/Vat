@@ -1,6 +1,7 @@
 #!perl6
 
 use v6;
+use Vat::Attachment;
 
 # opens when submerged
 unit class Vat::FloatValve does Vat::Attachment;

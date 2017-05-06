@@ -1,6 +1,7 @@
 #!perl6
 
 use v6;
+use Vat::Attachment;
 
 # allows bidirectional flow
 unit class Vat::Hole does Vat::Attachment;

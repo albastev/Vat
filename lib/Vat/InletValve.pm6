@@ -1,6 +1,7 @@
 #!perl6
 
 use v6;
+use Vat::Attachment;
 
 # only lets flow in
 unit class Vat::InletValve does Vat::Attachment;

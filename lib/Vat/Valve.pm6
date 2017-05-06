@@ -1,9 +1,10 @@
 #!perl6
 
 use v6;
+use Vat::Attachment;
 
 # allows bidirectional flow
-unit class Vat::Hole does Vat::Attachment;
+unit class Vat::Valve does Vat::Attachment;
 
 has Bool $!open = False;
 
