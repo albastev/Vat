@@ -18,8 +18,6 @@ has method calculate_level () {...}
 
 has method drain (Real :$level, Real :$volume) {
   self.calculate_level;
-  #say 'level'~$!level;
-  #say 'lvl'~$level;
   
   return 0 if $level > $!level;
   
@@ -57,8 +55,12 @@ has method request_supply () {
 }
 
 has method tick ( :$value ) {
-
+  
   $!supplier.emit($!level);
 
   Nil;
+}
+
+has method level () {
+  $!level;
 }

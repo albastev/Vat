@@ -6,7 +6,9 @@ use Vat;
 
 unit class Vat::Simple does Vat;
 
-submethod BUILD( :$!volume = 0, :$!scale = 1 ) {}
+submethod BUILD( :$!volume = 0, :$!scale = 1 ) {
+  self.calculate_level;
+}
 
 has method calculate_level () {
 

@@ -5,10 +5,20 @@ use Test;
 use lib '../lib';
 use Vat::Simple;
 
-plan 8;
+plan 10;
 
 my $vat = Vat::Simple.new;
 ok True;
+
+my $supply = $vat.request_supply;
+
+$supply.tap(-> $v {ok $v ~~ $vat.calculate_level});
+
+$vat.tick;
+
+$vat.fill(volume => 6, level => 100);
+
+$vat.tick;
 
 my $vat2 = Vat::Simple.new(volume => 100);
 my $drained = $vat2.drain(level => 25, volume => 100);
