@@ -15,7 +15,7 @@ has Real $!level;
 
 has Vat $!vat;
 
-has submethod BUILD ( :$!attachment_level, :$capacity = 1 ) {
+has submethod BUILD ( :$!attachment_level, :$!capacity = 1 ) {
   
 }
 
