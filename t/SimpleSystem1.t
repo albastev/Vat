@@ -24,8 +24,6 @@ $conduit.attach($vat1,$attach1);
 
 $conduit.attach($vat2,$attach2);
 
-say 'remaining' ~ $attach1.capacity_remaining;
-
 ok 5 ~~ $attach1.capacity_remaining;
 
 ok 5 ~~ $attach2.capacity_remaining;
@@ -38,9 +36,6 @@ ok True;
 $conduit.tick;
 $vat1.tick;
 $vat2.tick;
-
-say $vat1.calculate_level;
-say $vat2.calculate_level;
 
 ok $vat1.calculate_level ~~ 0;
 
