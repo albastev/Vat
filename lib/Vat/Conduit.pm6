@@ -24,15 +24,15 @@ has method tick () {
   # get submerged, sorted by level DESC
   # these are our sources
   
-  my @sorted = @!attachments.sort: {$^b.submerged <=> $^a.submerged};
+  my @sorted = @!attachments.sort: {$^b.pressure <=> $^a.pressure};
   
   my $min = Inf;
   my $max = -Inf;
   
   @sorted.map(-> $v { 
     $v.tick;
-    $min = $v.submerged if $v.submerged < $min;
-    $max = $v.submerged if $v.submerged > $max; 
+    $min = $v.pressure if $v.pressure < $min;
+    $max = $v.pressure if $v.pressure > $max; 
   });
   
   if $min ~~ $max  {return }; # equilibrium;
@@ -42,14 +42,14 @@ has method tick () {
   my $bottom;
   
   repeat {
-    
-    @sorted = @sorted.sort: {$^b.submerged <=> $^a.submerged};
-    
+    @sorted = @sorted.sort: {$^b.pressure <=> $^a.pressure};
     $top = @sorted.shift();
     $bottom = @sorted.pop();
     
-    { last;} if $top.submerged - $bottom.submerged < 2;
+    next if $top.pressure - $bottom.pressure <= 1;
   
+    next if $top.pressure ~~ 0;
+    
     # do we need to replace the bottom?
     if !$bottom.accepts_flow_in || $bottom.capacity_remaining ~~ 0 {
       last if +@sorted ~~ 0;
@@ -61,10 +61,14 @@ has method tick () {
       last if +@sorted ~~ 0;
       $top = @sorted.shift()
     }
+        
+    my $blorf = $top.flow_out(volume=>1,level=>$bottom.pressure);
     
-    $top.flow_out;
+    my $splorf = $bottom.flow_in(volume=>1,level=>$top.pressure);
     
-    $bottom.flow_in;
+    { $top.flow_in(volume=>1,level=>Inf); next; } if $splorf ~~ 0 and $blorf ~~ 1;
+    
+    next if $blorf < 1;
     
     @sorted.unshift($top);
     @sorted.push($bottom);

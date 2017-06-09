@@ -42,8 +42,8 @@ has method fill (Real :$level, Real :$volume) {
   {
     last if $level <= $!level;
     $!volume++;
-    self.calculate_level;
     $vol--;
+    self.calculate_level;
   }
   
   $volume - $vol but True;

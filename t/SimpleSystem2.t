@@ -8,17 +8,17 @@ use Vat::Conduit;
 use Vat::Simple;
 use Vat::Hole;
 
-plan 1;
+plan 5;
 
 my $conduit = Vat::Conduit.new;
 
-my $vat1 = Vat::Simple.new(volume=>5);
+my $vat1 = Vat::Simple.new(volume=>60/7);
 
 my $vat2 = Vat::Simple.new(volume=>0);
 
-my $attach1 = Vat::Hole.new(attachment_level => 0,capacity => 5);
+my $attach1 = Vat::Hole.new(attachment_level => 0,capacity => 5/7);
 
-my $attach2 = Vat::Hole.new(attachment_level => 50,capacity => 5);
+my $attach2 = Vat::Hole.new(attachment_level => 50,capacity => 5/7);
 
 $conduit.attach($vat1,$attach1);
 
@@ -37,9 +37,8 @@ $conduit.tick;
 $vat1.tick;
 $vat2.tick;
 
-say $vat1.calculate_level;
 say $vat2.calculate_level;
 
 ok $vat1.calculate_level ~~ 0;
 
-ok $vat2.calculate_level ~~ 5;
+ok $vat2.calculate_level ~~ 1;

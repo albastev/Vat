@@ -16,9 +16,9 @@ my $vat1 = Vat::Simple.new(volume=>100);
 
 my $vat2 = Vat::Simple.new(volume=>0);
 
-my $attach1 = Vat::Hole.new(attachment_level => 0);
+my $attach1 = Vat::Hole.new(attachment_level => 0,capacity=>1);
 
-my $attach2 = Vat::Hole.new(attachment_level => 10);
+my $attach2 = Vat::Hole.new(attachment_level => 10,capacity=>1);
 
 $conduit.attach($vat1,$attach1);
 
@@ -47,6 +47,8 @@ for (8..14) {
 }
 
 ok $vat1.calculate_level ~~ 86;
+
+say $vat2.calculate_level;
 
 ok $vat2.calculate_level ~~ 14;
 
@@ -183,6 +185,8 @@ for (3..15) {
 }
   
 ok $vat1.calculate_level ~~ 84;
+
+ok $vat2.calculate_level + $vat3.calculate_level ~~ 105 - 84;
 
 ok abs($vat2.calculate_level - $vat3.calculate_level) < 2;
 
