@@ -46,7 +46,7 @@ has method tick () {
     $top = @sorted.shift();
     $bottom = @sorted.pop();
     
-    next if $top.pressure - $bottom.pressure <= 1;
+    next if $top.pressure - $bottom.pressure < 1;
   
     next if $top.pressure ~~ 0;
     
