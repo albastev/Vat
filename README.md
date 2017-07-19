@@ -1,1 +1,3 @@
 # vat
+
+Build a network of Vats that transfer * between them...
