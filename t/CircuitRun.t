@@ -8,6 +8,8 @@ use Vat::Conduit;
 use Vat::Simple;
 use Vat::Hole;
 
+plan 1;
+
 my $vat1 = Vat::Simple.new(volume=>50);
 
 my $vat2 = Vat::Simple.new(volume=>50);
@@ -36,3 +38,7 @@ $conduit1.attach($vat2,$attach2);
 $conduit1.attach($vat2,$attach3);
 
 $conduit1.attach($vat1,$attach4);
+
+ok True;
+
+# TODO: remember what this was supposed to be...
