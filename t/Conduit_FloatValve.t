@@ -9,7 +9,7 @@ use Vat::Simple;
 use Vat::Hole;
 use Vat::FloatValve;
 
-plan 8;
+plan 14;
 
 my $conduit = Vat::Conduit.new;
 

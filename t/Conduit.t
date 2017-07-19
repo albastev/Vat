@@ -8,7 +8,7 @@ use Vat::Conduit;
 use Vat::Simple;
 use Vat::Hole;
 
-plan 28;
+plan 30;
 
 my $conduit = Vat::Conduit.new;
 
@@ -47,8 +47,6 @@ for (8..14) {
 }
 
 ok $vat1.calculate_level ~~ 86;
-
-say $vat2.calculate_level;
 
 ok $vat2.calculate_level ~~ 14;
 

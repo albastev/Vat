@@ -5,7 +5,7 @@ use Test;
 use lib '../lib';
 use Vat::Simple;
 
-plan 10;
+plan 8;
 
 my $vat = Vat::Simple.new;
 ok True;

@@ -8,7 +8,7 @@ use Vat::Conduit;
 use Vat::Simple;
 use Vat::Hole;
 
-plan 1;
+plan 5;
 
 my $conduit = Vat::Conduit.new;
 
