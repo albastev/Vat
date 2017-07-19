@@ -5,9 +5,19 @@
   "description" : "A vat for holding stuff",
   "authors" : [ "Steven Albano" ],
   "provides" : {
-    "Vat" : "lib/Vat.pm6"
+    "Vat" : "lib/Vat.pm6",
+    "Vat::Attachment" : "lib/Vat/Attachment.pm6",
+    "Vat::Conduit" : "lib/Vat/Conduit.pm6",
+    "Vat::FloatPlug" : "lib/Vat/FloatPlug.pm6",
+    "Vat::FloatValve" : "lib/Vat/FloatValve.pm6",
+    "Vat::Histogram" : "lib/Vat/Histogram.pm6",
+    "Vat::Hole" : "lib/Vat/Hole.pm6",
+    "Vat::InletValve" : "lib/Vat/InletValve.pm6",
+    "Vat::OutletValve" : "lib/Vat/OutletValve.pm6",
+    "Vat::Simple" : "lib/Vat/Simple.pm6",
+    "Vat::Valve" : "lib/Vat/Valve.pm6"
   },
   "depends" : [ ],
   "resources" : [ ],
-  "source-url" : ""
+  "source-url" : "git://github.com/albastev/Vat.git"
 }
