@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Raku
+        uses: Raku/setup-raku@v1
+        with:
+          raku-version: latest
+
+      - name: Install dependencies
+        run: zef --deps-only --/test install .
+
+      - name: Run test suite
+        run: prove -e raku -Ilib t
