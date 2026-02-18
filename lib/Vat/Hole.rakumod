@@ -1,14 +1,12 @@
-#!perl6
-
 use v6;
 use Vat::Attachment;
 
-# only lets flow out
-unit class Vat::OutletValve does Vat::Attachment;
+# allows bidirectional flow
+unit class Vat::Hole does Vat::Attachment;
 
 has method accepts_flow_in () {
 
-  False;
+  True;
 }
 
 has method accepts_flow_out () {

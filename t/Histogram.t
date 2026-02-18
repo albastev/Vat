@@ -1,8 +1,8 @@
-#!perl6
+#!/usr/bin/env raku
 
 use v6;
 use Test;
-use lib '../lib';
+use lib 'lib';
 use Vat::Histogram;
 
 plan 3;

@@ -1,5 +1,3 @@
-#!perl6
-
 use v6;
 
 unit role Vat;
