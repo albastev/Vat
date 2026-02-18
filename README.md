@@ -1,3 +1,5 @@
+[![CI](https://github.com/albastev/Vat/actions/workflows/ci.yml/badge.svg)](https://github.com/albastev/Vat/actions/workflows/ci.yml)
+
 # Vat
 
 `Vat` is a small Raku simulation library for modeling **resource flow in a network**.
