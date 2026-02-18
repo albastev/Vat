@@ -1,4 +1,4 @@
-[![CI](https://github.com/albastev/Vat/actions/workflows/ci.yml/badge.svg)](https://github.com/albastev/Vat/actions/workflows/ci.yml)
+[![CI](https://github.com/albastev/Vat/actions/workflows/ci.yml/badge.svg?branch=master&event=push)](https://github.com/albastev/Vat/actions/workflows/ci.yml?query=branch%3Amaster+event%3Apush)
 
 # Vat
 
