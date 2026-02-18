@@ -1,6 +1,8 @@
 # Vat
 
-`Vat` is a small Raku simulation library for modeling liquid transfer between connected containers.
+`Vat` is a small Raku simulation library for modeling **resource flow in a network**.
+
+Liquid transfer is the original metaphor, but the model is intentionally general: it can represent stamina movement in a game system, goods redistribution in a trade network, queue pressure balancing, and other "flow between pools" problems.
 
 It provides composable primitives for:
 
@@ -9,6 +11,21 @@ It provides composable primitives for:
 - transfer coordination across a network (`Vat::Conduit`)
 
 The simulation advances in **ticks**, and transfer is based on pressure differences, attachment type, and per-tick capacity.
+
+## Generalized mental model
+
+The code keeps physical names (like `pressure` and `attachment_level`), but you can read them abstractly:
+
+| Vat concept | General metaphor |
+| --- | --- |
+| `volume` | amount of resource in a pool/node |
+| `level` | current state/intensity derived from that amount |
+| `pressure` difference | transfer drive (how strongly resource should move) |
+| `attachment_level` | activation threshold/gate point |
+| `capacity` | max transfer per tick |
+| `tick` | one simulation update/frame/turn |
+
+This lets you treat Vat as a reusable flow engine, not only a literal fluid simulator.
 
 ## Status
 
@@ -66,6 +83,73 @@ say "vat1 level: {$vat1.calculate_level}";
 say "vat2 level: {$vat2.calculate_level}";
 ```
 
+## Example applications (non-liquid)
+
+### 1) Trade network balancing
+
+Imagine each `Vat::Simple` is a market warehouse, `volume` is inventory, and a conduit is a trade route. Higher-pressure nodes export toward lower-pressure nodes, bounded by route capacity.
+
+```raku
+use v6;
+use lib 'lib';
+
+use Vat::Simple;
+use Vat::Conduit;
+use Vat::Valve;
+
+# Warehouses
+my $north = Vat::Simple.new(volume => 120); # oversupplied region
+my $south = Vat::Simple.new(volume => 30);  # undersupplied region
+
+my $route = Vat::Conduit.new;
+
+# Trade policy on each side of the route
+my $north-port = Vat::Valve.new(attachment_level => 0, capacity => 5, open => True);
+my $south-port = Vat::Valve.new(attachment_level => 0, capacity => 5, open => True);
+
+$route.attach($north, $north-port);
+$route.attach($south, $south-port);
+
+$north.tick; $south.tick;          # prime attachment state
+for 1..10 { $route.tick; $north.tick; $south.tick; }
+
+say "north inventory: {$north.volume}";
+say "south inventory: {$south.volume}";
+```
+
+### 2) Stamina transfer / recovery model
+
+Treat each vat as a stamina pool. A "reserve" pool can feed an "active" pool through a constrained conduit each tick, which gives you gradual recovery behavior with tunable rate limits.
+
+```raku
+use v6;
+use lib 'lib';
+
+use Vat::Simple;
+use Vat::Conduit;
+use Vat::InletValve;
+use Vat::OutletValve;
+
+# Reserve stamina and active stamina pools
+my $reserve = Vat::Simple.new(volume => 80);
+my $active  = Vat::Simple.new(volume => 20);
+
+my $recovery = Vat::Conduit.new;
+
+# Reserve can only output, active can only input
+my $out = Vat::OutletValve.new(attachment_level => 0, capacity => 2, open => True);
+my $in  = Vat::InletValve.new(attachment_level => 0, capacity => 2, open => True);
+
+$recovery.attach($reserve, $out);
+$recovery.attach($active,  $in);
+
+$reserve.tick; $active.tick;
+for 1..5 { $recovery.tick; $reserve.tick; $active.tick; }
+
+say "reserve stamina: {$reserve.volume}";
+say "active stamina: {$active.volume}";
+```
+
 ## Core concepts
 
 ### Vat
@@ -81,7 +165,7 @@ The `Vat` role models a container with:
 
 ### Attachment
 
-Attachments sit at an `attachment_level` and define transfer policy.
+Attachments sit at an `attachment_level` (think threshold/gating point) and define transfer policy.
 
 Implemented attachment types:
 
@@ -89,8 +173,8 @@ Implemented attachment types:
 - `Vat::Valve` - bidirectional flow, but only when explicitly opened
 - `Vat::InletValve` - allows inflow only
 - `Vat::OutletValve` - allows outflow only
-- `Vat::FloatValve` - opens when submerged
-- `Vat::FloatPlug` - closes when submerged
+- `Vat::FloatValve` - opens when submerged (i.e., when level crosses threshold)
+- `Vat::FloatPlug` - closes when submerged (i.e., when level crosses threshold)
 
 Each attachment also enforces per-tick transfer `capacity`.
 
