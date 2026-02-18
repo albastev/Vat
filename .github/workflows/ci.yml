@@ -17,16 +17,19 @@ jobs:
         with:
           raku-version: latest
 
-      - name: Install dependencies
+      - name: Normalize distribution metadata for zef
         run: |
-          if [ -f META6.json ]; then
-            zef --deps-only --/test install .
-          elif [ -f META6.info ]; then
-            zef --deps-only --/test install ./META6.info
-          else
-            echo "No META6.json or META6.info found in repository root" >&2
-            exit 1
+          if [ -f META6.info ] && [ ! -f META6.json ]; then
+            cp META6.info META6.json
           fi
 
+      - name: Install dependencies
+        run: zef --deps-only --/test install .
+
       - name: Run test suite
-        run: prove -e raku -Ilib t
+        run: |
+          set -e
+          for t in t/*.t; do
+            echo "==> $t"
+            raku -Ilib "$t"
+          done
