@@ -18,7 +18,15 @@ jobs:
           raku-version: latest
 
       - name: Install dependencies
-        run: zef --deps-only --/test install .
+        run: |
+          if [ -f META6.json ]; then
+            zef --deps-only --/test install .
+          elif [ -f META6.info ]; then
+            zef --deps-only --/test install ./META6.info
+          else
+            echo "No META6.json or META6.info found in repository root" >&2
+            exit 1
+          fi
 
       - name: Run test suite
         run: prove -e raku -Ilib t
